@@ -85,8 +85,8 @@
 	{
 		int employee_id = Integer.parseInt(request.getParameter("employee_id"));
 		if(employee_obj.deleteEmployee(employee_id))
-			response.sendRedirect("../register.jsp?msg=Record Deleted Successfully");
+			response.sendRedirect("../report-employee.jsp?msg=Record Deleted Successfully");
 		else
-			response.sendRedirect("../register.jsp?msg=Problem in Deletion.");
+			response.sendRedirect("../report-employee.jsp?msg=Problem in Deletion.");
 	}
 %>

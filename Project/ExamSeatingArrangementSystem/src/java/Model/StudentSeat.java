@@ -21,6 +21,9 @@ public class StudentSeat extends Connect {
         String error = "";
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, (String) studentSeatData.get("ss_student_id"));
             pstmt.setString(2, (String) studentSeatData.get("ss_seat_id"));
@@ -28,7 +31,6 @@ public class StudentSeat extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -46,6 +48,9 @@ public class StudentSeat extends Connect {
         HashMap results = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM student_seat WHERE ss_id = " + ss_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -77,6 +82,9 @@ public class StudentSeat extends Connect {
         int record = 0;
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
 
             pstmt.setString(1, (String) studentSeatData.get("ss_student_id"));
@@ -86,7 +94,6 @@ public class StudentSeat extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -105,6 +112,9 @@ public class StudentSeat extends Connect {
         int count = 0;
         ArrayList resultArray = new ArrayList();
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
             while (rs.next()) {
@@ -129,11 +139,30 @@ public class StudentSeat extends Connect {
 
     public HashMap getStudentSeats(String student_id) {
         HashMap results = new HashMap();
-        int count = 0;
+        results.put("ss_id", "");
+        results.put("ss_seat_id", 0);
+        results.put("ss_student_id", 0);
+        results.put("ss_description", "");
+        results.put("student_rollno", "");
+        results.put("student_name", "");
+        results.put("student_father_name", "");
+        results.put("seat_number", "");
+        results.put("block_name", "");
+        results.put("room_name", "");
+        results.put("floor_name", "");
+
+        if (student_id == null || student_id.trim().isEmpty()) {
+            return results;
+        }
+
         try {
-            String SQL = "SELECT * FROM `seat`,`block`,`room`,`floor`,`student_seat`,`student` WHERE student_id = ss_student_id AND ss_seat_id = seat_id AND block_room_id = room_id AND block_id = seat_block_id AND room_floor_id = floor_id AND student_rollno = " + student_id;
-            statement = connection.createStatement();
-            rs = statement.executeQuery(SQL);
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
+            String SQL = "SELECT * FROM `seat`,`block`,`room`,`floor`,`student_seat`,`student` WHERE student_id = ss_student_id AND ss_seat_id = seat_id AND block_room_id = room_id AND block_id = seat_block_id AND room_floor_id = floor_id AND student_rollno = ?";
+            pstmt = connection.prepareStatement(SQL);
+            pstmt.setString(1, student_id.trim());
+            rs = pstmt.executeQuery();
             while (rs.next()) {
                 results.put("ss_id", rs.getString("ss_id"));
                 results.put("floor_name", rs.getString("floor_name"));
@@ -144,14 +173,8 @@ public class StudentSeat extends Connect {
                 results.put("student_name", rs.getString("student_name"));
                 results.put("student_father_name", rs.getString("student_father_name"));
                 results.put("ss_description", rs.getString("ss_description"));
-                count++;
             }
-            if (count == 0) {
-                results.put("ss_id", "");
-                results.put("ss_seat_id", 0);
-                results.put("ss_student_id", 0);
-                results.put("ss_description", "");
-            }
+            pstmt.close();
         } catch (Exception e) {
             System.out.println("Error is: " + e);
         }
@@ -161,14 +184,14 @@ public class StudentSeat extends Connect {
     /////Function for Getting the List////////////
 
     public String getSeatOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("seat", "seat_id", "seat_number", "seat_id,seat_number", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
 
     public String getStudentOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("student", "student_id", "student_rollno", "student_id,student_rollno", selectedID, "1");
     }
 }

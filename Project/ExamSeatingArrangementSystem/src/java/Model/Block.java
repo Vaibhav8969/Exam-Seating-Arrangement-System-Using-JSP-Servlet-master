@@ -24,6 +24,9 @@ public class Block extends Connect {
         String error = "";
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, (String) blockData.get("block_name"));
             pstmt.setString(2, (String) blockData.get("block_room_id"));
@@ -31,7 +34,6 @@ public class Block extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -49,6 +51,9 @@ public class Block extends Connect {
         HashMap results = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM `block` WHERE block_id = " + block_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -80,6 +85,9 @@ public class Block extends Connect {
         int record = 0;
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
 
             pstmt.setString(1, (String) blockData.get("block_name"));
@@ -89,7 +97,6 @@ public class Block extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -108,6 +115,9 @@ public class Block extends Connect {
         int count = 0;
         ArrayList resultArray = new ArrayList();
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
             while (rs.next()) {
@@ -130,7 +140,7 @@ public class Block extends Connect {
     /////Function for Getting the List////////////
 
     public String getRoomOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("room", "room_id", "room_name", "room_id,room_name", selectedID, "1");
     }
 

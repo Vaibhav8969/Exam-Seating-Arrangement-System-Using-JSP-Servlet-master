@@ -26,37 +26,40 @@ public class Connect {
     }
 
     public static void connect_mysql() {
-        String driver = "com.mysql.jdbc.Driver";
         String uname = "root";
         String pwd = "root";
-        String url = "jdbc:mysql://localhost:3306/esas";
+        String url = "jdbc:mysql://localhost:3306/esas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";
         try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, uname, pwd);
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Class.forName("com.mysql.jdbc.Driver");
+            }
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(url, uname, pwd);
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Database Connection Error: " + e.getMessage());
         }
     }
 
     public static String getOptionList(String tablename, String Id, String name, String s4, int selectedID, String s5) {
-
         String retString = "";
         try {
-           
-
-                String SQL = "SELECT " + s4 + " FROM " + tablename;
-                pstmt = connection.prepareStatement(SQL);
-            //pstmt.setString(1, s4);
-                //pstmt.setString(1, tablename);
-
-                rs = pstmt.executeQuery();
-                while (rs.next()) {
-                    retString += "<option value ='" + rs.getString(Id) + "'>" + rs.getString(name) + "</option>";
-                }
-           
-
+            if (connection == null || connection.isClosed()) {
+                connect_mysql();
+            }
+            String SQL = "SELECT " + s4 + " FROM " + tablename;
+            pstmt = connection.prepareStatement(SQL);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String idVal = rs.getString(Id);
+                String nameVal = rs.getString(name);
+                String selected = (selectedID != 0 && String.valueOf(selectedID).equals(idVal)) ? " selected" : "";
+                retString += "<option value ='" + idVal + "'" + selected + ">" + nameVal + "</option>";
+            }
         } catch (Exception e) {
-            System.out.println("Error is: " + e);
+            System.out.println("Error in getOptionList: " + e);
         }
         return retString;
     }

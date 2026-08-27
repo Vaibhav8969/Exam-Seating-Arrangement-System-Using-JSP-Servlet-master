@@ -4,7 +4,7 @@
 <%
 	Seat seatDetails = new Seat();
 	String seatLabel = "Save";
-	int seat_id = Integer.parseInt(request.getParameter ("seat_id"));
+	int seat_id = (request.getParameter("seat_id") != null && !request.getParameter("seat_id").isEmpty()) ? Integer.parseInt(request.getParameter("seat_id")) : 0;
 	if(seat_id != 0) {
 		seatLabel = "Update";
 	}

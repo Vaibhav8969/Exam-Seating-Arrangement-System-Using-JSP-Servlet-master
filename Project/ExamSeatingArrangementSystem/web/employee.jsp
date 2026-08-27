@@ -3,15 +3,15 @@
 <%@ page import= "Model.*" %>
 <%
 	Employee employeeDetails = new Employee();
-	int employee_id = Integer.parseInt(request.getParameter ("employee_id"));
+	int employee_id = (request.getParameter("employee_id") != null && !request.getParameter("employee_id").isEmpty()) ? Integer.parseInt(request.getParameter("employee_id")) : 0;
 	String male = "";
 	String female = "";
 	HashMap Values =  employeeDetails.getEmployeeDetails(employee_id);
-	if(Values.get("employee_gender").equals("Male"))
+	if(Values.get("employee_gender") != null && Values.get("employee_gender").equals("Male"))
 	{
 		male = "Selected";
 	}
-	else if(Values.get("employee_gender").equals("Female"))
+	else if(Values.get("employee_gender") != null && Values.get("employee_gender").equals("Female"))
 	{
 		female = "Selected";
 	}

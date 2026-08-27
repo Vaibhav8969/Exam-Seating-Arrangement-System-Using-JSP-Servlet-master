@@ -6,9 +6,7 @@
 
 <web-app>
   <display-name>ExamSeatingArrangementSystem</display-name>
-  <!-- Action Servlet Configuration -->
-<!--  <servlet>
-    <servlet-name>Airport</servlet-name>
-    <servlet-class>Airlines.Airport</servlet-class>
-  </servlet>-->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>

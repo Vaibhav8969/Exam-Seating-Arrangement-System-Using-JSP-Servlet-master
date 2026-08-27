@@ -14,7 +14,7 @@
       <!-- main body --> 
       <div class="scrollable">
         <h2>Student Seat Assign Card</h2>
-		<% if(!Values.get("ss_id").equals("")) { %>
+		<% if(Values != null && Values.get("ss_id") != null && !Values.get("ss_id").toString().equals("")) { %>
         <table>
           <thead>
             <tr>

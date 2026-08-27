@@ -22,6 +22,9 @@ public class Seat extends Connect{
 		
 		try
 		{
+			if (connection == null || connection.isClosed()) {
+				Connect.connect_mysql();
+			}
 			pstmt = connection.prepareStatement(SQL);
 			pstmt.setString(1,(String) seatData.get("seat_number"));
 			pstmt.setString(2,(String) seatData.get("seat_block_id"));
@@ -29,7 +32,6 @@ public class Seat extends Connect{
 			
 			record = pstmt.executeUpdate();
 			pstmt.close();
-			connection.close();
 		}
 		catch(Exception e)
 		{
@@ -50,6 +52,9 @@ public HashMap getSeatDetails(int seat_id)
 int count=0;
 		try
 		{
+			if (connection == null || connection.isClosed()) {
+				Connect.connect_mysql();
+			}
             String SQL =  "SELECT * FROM `seat` WHERE seat_id = "+seat_id ;
 statement = connection.createStatement();
 rs = statement.executeQuery(SQL);
@@ -85,6 +90,9 @@ return results;
 		
 		try
 		{
+			if (connection == null || connection.isClosed()) {
+				Connect.connect_mysql();
+			}
 			pstmt = connection.prepareStatement(SQL);
 			
 			pstmt.setString(1,(String) seatData.get("seat_number"));
@@ -94,7 +102,6 @@ return results;
 			
 			record = pstmt.executeUpdate();
 			pstmt.close();
-			connection.close();
 		}
 		catch(Exception e)
 		{
@@ -117,6 +124,9 @@ public ArrayList getAllSeat()
         ArrayList resultArray = new ArrayList();
 try
 		{			
+			if (connection == null || connection.isClosed()) {
+				Connect.connect_mysql();
+			}
 			statement = connection.createStatement();
 rs = statement.executeQuery(SQL);
 while(rs.next())
@@ -142,7 +152,7 @@ return resultArray;
 	/////Function for Getting the List////////////
 	public String getBlockOption(Integer SelID)
     {
-		int selectedID = SelID.intValue();
+		int selectedID = (SelID != null) ? SelID.intValue() : 0;
 	return Connect.getOptionList("block","block_id","block_name","block_id,block_name",selectedID,"1");
     }
 }

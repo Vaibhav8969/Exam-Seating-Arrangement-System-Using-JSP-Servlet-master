@@ -18,7 +18,7 @@
 			<li><a href="report-student-seat.jsp">Assign Seat</a></li>
 			<li><a href="report-employee.jsp">Users Reports</a></li>
 			<li><a href="change-password.jsp">Change Password</a></li>
-			<li><a href="login.jsp?act=logout">Logout</a></li>
+			<li><a href="model/login.jsp?act=logout">Logout</a></li>
 		  </ul>
 		  <% } %>
 		  

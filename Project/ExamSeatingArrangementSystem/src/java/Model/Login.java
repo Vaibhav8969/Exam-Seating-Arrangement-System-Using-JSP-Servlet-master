@@ -22,6 +22,9 @@ public class Login extends Connect {
         HashMap resultsArray = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM login WHERE login_user = ? and login_password=?";
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, login_user);
@@ -50,6 +53,9 @@ public class Login extends Connect {
         boolean check = false;
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM login WHERE login_user = ? and login_password=?";
 
             pstmt = connection.prepareStatement(SQL);
@@ -69,11 +75,32 @@ public class Login extends Connect {
         return check;
     }
 
+    public int checkUsernameExits(String value, int type) {
+        int count = 0;
+        try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
+            String SQL = (type == 1) ? "SELECT * FROM login WHERE login_user = ?" : "SELECT * FROM login WHERE login_email = ?";
+            pstmt = connection.prepareStatement(SQL);
+            pstmt.setString(1, value);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                count++;
+            }
+        } catch (Exception e) {
+            System.out.println("Error checking username existence: " + e);
+        }
+        return count;
+    }
+
     public boolean changePassword(String old_password, String new_password, int login_id) {
         boolean check = false;
-        int count = 0;
         String tableOldPassword = "";
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT login_password FROM login WHERE login_id = ?";
 
             pstmt = connection.prepareStatement(SQL);
@@ -81,7 +108,6 @@ public class Login extends Connect {
 
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                System.out.println("old pass" + rs.getString(1));
                 tableOldPassword = rs.getString(1);
             }
             if (tableOldPassword.equals(old_password)) {
@@ -98,6 +124,56 @@ public class Login extends Connect {
         }
 
         return check;
+    }
+
+    public boolean save_login(HashMap loginData) {
+        try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
+            String SQL = "INSERT INTO login (login_user, login_password, login_email, login_level) VALUES (?, ?, ?, '3')";
+            pstmt = connection.prepareStatement(SQL);
+            pstmt.setString(1, (String) loginData.get("login_user"));
+            pstmt.setString(2, (String) loginData.get("login_password"));
+            pstmt.setString(3, (String) loginData.get("login_email"));
+            return pstmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error saving login: " + e);
+            return false;
+        }
+    }
+
+    public boolean update_login(HashMap loginData) {
+        try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
+            String SQL = "UPDATE login SET login_user = ?, login_password = ?, login_email = ? WHERE login_id = ?";
+            pstmt = connection.prepareStatement(SQL);
+            pstmt.setString(1, (String) loginData.get("login_user"));
+            pstmt.setString(2, (String) loginData.get("login_password"));
+            pstmt.setString(3, (String) loginData.get("login_email"));
+            pstmt.setString(4, (String) loginData.get("login_id"));
+            return pstmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error updating login: " + e);
+            return false;
+        }
+    }
+
+    public boolean delete_login(int login_id) {
+        try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
+            String SQL = "DELETE FROM login WHERE login_id = ?";
+            pstmt = connection.prepareStatement(SQL);
+            pstmt.setInt(1, login_id);
+            return pstmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error deleting login: " + e);
+            return false;
+        }
     }
 
 }

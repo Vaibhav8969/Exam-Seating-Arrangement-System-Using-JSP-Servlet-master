@@ -4,7 +4,7 @@
 <%
 	StudentSeat studentSeatDetails = new StudentSeat();
 	String studentSeatLabel = "Save";
-	int ss_id = Integer.parseInt(request.getParameter ("ss_id"));
+	int ss_id = (request.getParameter("ss_id") != null && !request.getParameter("ss_id").isEmpty()) ? Integer.parseInt(request.getParameter("ss_id")) : 0;
 	if(ss_id != 0) {
 		studentSeatLabel = "Update";
 	}

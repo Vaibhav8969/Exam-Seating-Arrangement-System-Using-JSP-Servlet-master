@@ -4,7 +4,7 @@
 <%
 	Block blockDetails = new Block();
 	String blockLabel = "Save";
-	int block_id = Integer.parseInt(request.getParameter ("block_id"));
+	int block_id = (request.getParameter("block_id") != null && !request.getParameter("block_id").isEmpty()) ? Integer.parseInt(request.getParameter("block_id")) : 0;
 	if(block_id != 0) {
 		blockLabel = "Update";
 	}

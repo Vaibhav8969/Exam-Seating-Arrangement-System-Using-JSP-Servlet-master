@@ -26,6 +26,9 @@ public class Room extends Connect {
         String error = "";
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, (String) roomData.get("room_floor_id"));
             pstmt.setString(2, (String) roomData.get("room_user_id"));
@@ -34,7 +37,6 @@ public class Room extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -52,6 +54,9 @@ public class Room extends Connect {
         HashMap results = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM `room` WHERE room_id = " + room_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -85,6 +90,9 @@ public class Room extends Connect {
         int record = 0;
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
 
             pstmt.setString(1, (String) roomData.get("room_floor_id"));
@@ -95,7 +103,6 @@ public class Room extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -114,6 +121,9 @@ public class Room extends Connect {
         int count = 0;
         ArrayList resultArray = new ArrayList();
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
             while (rs.next()) {
@@ -136,14 +146,14 @@ public class Room extends Connect {
     /////Function for Getting the List////////////
 
     public String getFloorOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("floor", "floor_id", "floor_name", "floor_id,floor_name", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
 
     public String getUserOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("employee", "employee_id", "employee_first_name", "employee_id,employee_first_name", selectedID, "1");
     }
 }

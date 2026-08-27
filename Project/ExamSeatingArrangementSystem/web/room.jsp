@@ -4,7 +4,7 @@
 <%
 	Room roomDetails = new Room();
 	String roomLabel = "Save";
-	int room_id = Integer.parseInt(request.getParameter ("room_id"));
+	int room_id = (request.getParameter("room_id") != null && !request.getParameter("room_id").isEmpty()) ? Integer.parseInt(request.getParameter("room_id")) : 0;
 	if(room_id != 0) {
 		roomLabel = "Update";
 	}

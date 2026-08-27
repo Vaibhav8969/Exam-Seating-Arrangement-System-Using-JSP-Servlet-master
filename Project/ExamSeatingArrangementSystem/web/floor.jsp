@@ -4,7 +4,7 @@
 <%
 	Floor floorDetails = new Floor();
 	String floorLabel = "Save";
-	int floor_id = Integer.parseInt(request.getParameter ("floor_id"));
+	int floor_id = (request.getParameter("floor_id") != null && !request.getParameter("floor_id").isEmpty()) ? Integer.parseInt(request.getParameter("floor_id")) : 0;
 	if(floor_id != 0) {
 		floorLabel = "Update";
 	}

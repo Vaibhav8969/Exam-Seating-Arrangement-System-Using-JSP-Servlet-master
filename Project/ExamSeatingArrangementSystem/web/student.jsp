@@ -3,7 +3,7 @@
 <%@ page import= "Model.*" %>
 <%
 	Student studentDetails = new Student();
-	int student_id = Integer.parseInt(request.getParameter ("student_id"));
+	int student_id = (request.getParameter("student_id") != null && !request.getParameter("student_id").isEmpty()) ? Integer.parseInt(request.getParameter("student_id")) : 0;
 	HashMap Values =  studentDetails.getStudentDetails(student_id);	
 %>
 <div class="wrapper row3">

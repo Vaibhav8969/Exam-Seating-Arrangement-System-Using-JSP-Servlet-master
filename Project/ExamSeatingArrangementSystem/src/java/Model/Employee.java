@@ -25,6 +25,9 @@ public class Employee extends Connect {
         String error = "";
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, (String) employeeData.get("employee_sal"));
             pstmt.setString(2, (String) employeeData.get("employee_first_name"));
@@ -66,6 +69,9 @@ public class Employee extends Connect {
         /// Save Credentials to Login ////
         SQL = "INSERT INTO login (login_emp_id, login_user, login_password, login_email, login_level) VALUES (?, ?, ?, ?, ?);";
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setInt(1, last_inserted_id);
             pstmt.setString(2, (String) employeeData.get("employee_user"));
@@ -74,7 +80,6 @@ public class Employee extends Connect {
             pstmt.setString(5, (String) employeeData.get("employee_role"));
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -93,6 +98,9 @@ public class Employee extends Connect {
         HashMap resultsArray = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM employee WHERE employee_id = " + employee_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -153,6 +161,9 @@ public class Employee extends Connect {
 
         int record = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, (String) employeeData.get("employee_sal"));
             pstmt.setString(2, (String) employeeData.get("employee_first_name"));
@@ -175,7 +186,6 @@ public class Employee extends Connect {
             pstmt.setString(19, (String) employeeData.get("employee_id"));
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -194,46 +204,46 @@ public class Employee extends Connect {
 
     /////Function for Getting the List////////////
     public String getStateOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("state", "state_id", "state_name", "state_id,state_name", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
 
     public String getEmployeeOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("employee", "employee_id", "employee_id", "employee_id,employee_id", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
 
     public String getRoleOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("roles", "role_id", "role_title", "role_id,role_title", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
 
     public String getCountryOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("country", "country_id", "country_name", "country_id,country_name", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
     public String getSalutionOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("salutions", "sl_id", "sl_name", "sl_id,sl_name", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
     public String getStatusOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("status", "status_id", "status_name", "status_id,status_name", selectedID, "1");
     }
 
     /////Function for Getting the List////////////
     public String getDepartmentOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("department", "dept_id", "dept_name", "dept_id,dept_name", selectedID, "1");
     }
 
@@ -245,6 +255,9 @@ public class Employee extends Connect {
 
         ArrayList resultArray = new ArrayList();
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             if (!managerID.equals("0")) {
                 SQL = "SELECT * FROM employee WHERE employee_manager_id = " + managerID;
             }
@@ -261,8 +274,8 @@ public class Employee extends Connect {
                 results.put("employee_gender", rs.getString("employee_gender"));
                 results.put("employee_address", rs.getString("employee_address"));
                 results.put("employee_village", rs.getString("employee_village"));
-                results.put("employee_state", rs.getString("employee_state"));
-                results.put("employee_country", rs.getString("employee_country"));
+                results.put("employee_state", Integer.parseInt(rs.getString("employee_state")));
+                results.put("employee_country", Integer.parseInt(rs.getString("employee_country")));
                 results.put("employee_landline", rs.getString("employee_landline"));
                 results.put("employee_mobile", rs.getString("employee_mobile"));
                 results.put("employee_email", rs.getString("employee_email"));
@@ -292,6 +305,9 @@ public class Employee extends Connect {
         String value = "";
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             SQL = "SELECT dept_name FROM department WHERE dept_id = " + dept_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -310,6 +326,9 @@ public class Employee extends Connect {
         String value = "";
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             SQL = "SELECT status_name FROM status WHERE status_id = " + status_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);

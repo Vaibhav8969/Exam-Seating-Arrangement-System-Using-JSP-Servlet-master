@@ -21,6 +21,9 @@ public class Student extends Connect {
         String error = "";
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
             pstmt.setString(1, (String) studentData.get("student_course_id"));
             pstmt.setString(2, (String) studentData.get("student_rollno"));
@@ -32,7 +35,6 @@ public class Student extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -50,6 +52,9 @@ public class Student extends Connect {
         HashMap results = new HashMap();
         int count = 0;
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             String SQL = "SELECT * FROM `student` WHERE student_id = " + student_id;
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
@@ -89,6 +94,9 @@ public class Student extends Connect {
         int record = 0;
 
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             pstmt = connection.prepareStatement(SQL);
 
             pstmt.setString(1, (String) studentData.get("student_course_id"));
@@ -102,7 +110,6 @@ public class Student extends Connect {
 
             record = pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (Exception e) {
             StringWriter writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -121,6 +128,9 @@ public class Student extends Connect {
         int count = 0;
         ArrayList resultArray = new ArrayList();
         try {
+            if (connection == null || connection.isClosed()) {
+                Connect.connect_mysql();
+            }
             statement = connection.createStatement();
             rs = statement.executeQuery(SQL);
             while (rs.next()) {
@@ -146,7 +156,7 @@ public class Student extends Connect {
     /////Function for Getting the List////////////
 
     public String getCourseOption(Integer SelID) {
-        int selectedID = SelID.intValue();
+        int selectedID = (SelID != null) ? SelID.intValue() : 0;
         return Connect.getOptionList("course", "course_id", "course_name", "course_id,course_name", selectedID, "1");
     }
 }
