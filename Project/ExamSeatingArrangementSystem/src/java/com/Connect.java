@@ -26,9 +26,29 @@ public class Connect {
     }
 
     public static void connect_mysql() {
-        String uname = "root";
-        String pwd = "root";
-        String url = "jdbc:mysql://localhost:3306/esas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";
+        String envHost = System.getenv("DB_HOST");
+        String envPort = System.getenv("DB_PORT");
+        String envName = System.getenv("DB_NAME");
+        String envUser = System.getenv("DB_USER");
+        String envPass = System.getenv("DB_PASSWORD");
+        String databaseUrl = System.getenv("DATABASE_URL");
+        String mysqlUrl = System.getenv("MYSQL_URL");
+
+        String host = (envHost != null && !envHost.isEmpty()) ? envHost : "localhost";
+        String port = (envPort != null && !envPort.isEmpty()) ? envPort : "3306";
+        String dbName = (envName != null && !envName.isEmpty()) ? envName : "esas";
+        String uname = (envUser != null && !envUser.isEmpty()) ? envUser : "root";
+        String pwd = (envPass != null) ? envPass : "root";
+
+        String url;
+        if (databaseUrl != null && !databaseUrl.isEmpty()) {
+            url = databaseUrl.startsWith("jdbc:") ? databaseUrl : "jdbc:" + databaseUrl;
+        } else if (mysqlUrl != null && !mysqlUrl.isEmpty()) {
+            url = mysqlUrl.startsWith("jdbc:") ? mysqlUrl : "jdbc:" + mysqlUrl;
+        } else {
+            url = "jdbc:mysql://" + host + ":" + port + "/" + dbName + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";
+        }
+
         try {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");

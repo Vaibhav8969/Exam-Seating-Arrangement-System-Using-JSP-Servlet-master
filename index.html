@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Seating Arrangement System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #0f172a; color: #f8fafc; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        .header { background: #1e293b; border-bottom: 1px solid #334155; padding: 2rem; text-align: center; }
+        .header h1 { font-size: 2.2rem; color: #38bdf8; margin-bottom: 0.5rem; }
+        .header p { color: #94a3b8; font-size: 1.1rem; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .card h2 { color: #f1f5f9; font-size: 1.4rem; margin-bottom: 1rem; border-bottom: 2px solid #38bdf8; display: inline-block; padding-bottom: 0.3rem; }
+        .badges { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .badge { background: #334155; color: #38bdf8; padding: 0.35rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; }
+        .badge.mysql { color: #f59e0b; }
+        .badge.tomcat { color: #ec4899; }
+        .badge.docker { color: #0ea5e9; }
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #0284c7; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.2s ease; }
+        .btn:hover { background: #0369a1; }
+        .btn-secondary { background: #334155; color: #e2e8f0; }
+        .btn-secondary:hover { background: #475569; }
+        ul { list-style-position: inside; color: #cbd5e1; margin-top: 0.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .notice { background: rgba(56, 189, 248, 0.1); border-left: 4px solid #38bdf8; padding: 1rem; border-radius: 4px; margin-top: 1rem; color: #cbd5e1; }
+        footer { text-align: center; padding: 1.5rem; color: #64748b; font-size: 0.9rem; border-top: 1px solid #1e293b; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Exam Seating Arrangement System</h1>
+        <p>A Web Application for Managing Exam Halls, Blocks, Rooms, Seats & Students</p>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2>Technology Stack & Architecture</h2>
+            <div class="badges">
+                <span class="badge">Java EE 8</span>
+                <span class="badge tomcat">Apache Tomcat 9</span>
+                <span class="badge">JSP & Servlets</span>
+                <span class="badge mysql">MySQL 8.0</span>
+                <span class="badge docker">Docker Ready</span>
+            </div>
+            <p>This backend system requires a Java Virtual Machine (JVM) and Apache Tomcat 9 servlet container along with a MySQL database.</p>
+            
+            <div class="notice">
+                <strong>Cloud Deployment Notice:</strong> Because this project is built on Java Servlets & JSP, it runs in a Docker container on <strong>Render.com</strong>, <strong>Railway.app</strong>, or <strong>Fly.io</strong>.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Core Features</h2>
+            <ul>
+                <li><strong>Room & Floor Management:</strong> Add and organize exam rooms by building and floors.</li>
+                <li><strong>Block & Seat Configuration:</strong> Define blocks within rooms and allocate seat numbers.</li>
+                <li><strong>Student Seat Allocation:</strong> Assign students to individual seats automatically or manually.</li>
+                <li><strong>Student Seat Search:</strong> Search and view assigned seat cards by Roll Number.</li>
+                <li><strong>User & Admin Access Control:</strong> Super-admin dashboard, authentication, and user management.</li>
+            </ul>
+            
+            <div class="btn-group">
+                <a href="https://github.com/Vaibhav8969/Exam-Seating-Arrangement-System-Using-JSP-Servlet-master" class="btn" target="_blank">View GitHub Repository</a>
+                <a href="https://render.com" class="btn btn-secondary" target="_blank">Deploy on Render</a>
+                <a href="https://railway.app" class="btn btn-secondary" target="_blank">Deploy on Railway</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Exam Seating Arrangement System &bull; Java JSP & Servlet Project
+    </footer>
+</body>
+</html>
