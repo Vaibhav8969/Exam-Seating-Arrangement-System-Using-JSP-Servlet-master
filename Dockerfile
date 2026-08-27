@@ -21,4 +21,5 @@ RUN rm -rf /tmp/project
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+# Render and other container hosts may provide a different listening port.
+CMD ["sh", "-c", "if [ -n \"$PORT\" ]; then sed -i \"s/port=\\\"8080\\\"/port=\\\"$PORT\\\"/\" \"$CATALINA_HOME/conf/server.xml\"; fi; exec catalina.sh run"]

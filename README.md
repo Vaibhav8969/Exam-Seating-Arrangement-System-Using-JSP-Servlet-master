@@ -26,11 +26,19 @@ Before you begin, ensure you have met the following requirements:
    - *(Note: If your credentials differ, update the database connection strings in `Project/ExamSeatingArrangementSystem/src/java/com/Connect.java`)*.
 
 ### 2. Running the Application
-1. Open your preferred IDE (e.g., NetBeans).
-2. Import/Open the project by selecting the `Project/ExamSeatingArrangementSystem` folder.
-3. Resolve any missing server dependencies by adding Apache Tomcat or GlassFish to your project configuration.
-4. Clean and Build the project.
-5. Run the project. The IDE will deploy the application to the configured web server and launch it in your default browser.
+#### Using Apache Tomcat on Windows
+1. Install Apache Tomcat 9.0.121 into the repository folder so this path exists: `apache-tomcat-9.0.121\bin\startup.bat`.
+2. Run `rebuild-and-deploy.bat` from the repository root.
+3. Run `start-server.bat`.
+4. Open `http://localhost:8080/ExamSeatingArrangementSystem/`.
+
+Do not open the JSP files with Live Server or by double-clicking them. JSP runs inside Tomcat, not in a static file server. NetBeans users can instead open `Project/ExamSeatingArrangementSystem`, select a configured Tomcat server, clean/build, and run the project.
+
+#### Using Docker
+Run `docker compose up --build` from the repository root, then open `http://localhost:8080/`. The Docker image deploys the JSP application as the Tomcat root application and also keeps the `/ExamSeatingArrangementSystem/` context available.
+
+#### Using Vercel
+Vercel serves the static project information page at `/`. Vercel does not execute Java, JSP, Servlets, or connect to the Docker MySQL service, so the complete admin application must be deployed with Docker on Render, Railway, or another Tomcat-capable host. Deploy this repository to Vercel by selecting the repository root as the project root and leaving the framework preset as `Other`.
 
 ### 3. Default Credentials
 - **Admin Username:** admin

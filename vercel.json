@@ -1,5 +1,17 @@
 {
   "version": 2,
-  "public": true,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/ExamSeatingArrangementSystem",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/ExamSeatingArrangementSystem/",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
 }
